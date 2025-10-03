@@ -1,0 +1,31 @@
+# Python cache & compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment & env files
+venv/
+.env/
+
+# Logs
+*.log
+
+# Data folders (ignore big CSVs and Parquet tables)
+data/raw/
+data/bronze/
+data/silver/
+data/gold/
+
+# Models
+models/
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Temporary files
+*.tmp
+*.swp
+.DS_Store
+
+# Parquet files
+*.parquet
