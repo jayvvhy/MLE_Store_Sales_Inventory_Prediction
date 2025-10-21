@@ -41,7 +41,14 @@ with DAG(
         ),
     )
 
-    silver_label_store = DummyOperator(task_id="silver_label_store")
+    silver_label_store = BashOperator(
+        task_id='run_silver_label_store',
+        bash_command=(
+            'cd /opt/airflow/scripts && '
+            'python3 silver_label_store.py '
+            '--snapshotdate "{{ ds }}"'
+        ),
+    )
 
     gold_label_store = DummyOperator(task_id="gold_label_store")
 
