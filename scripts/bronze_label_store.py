@@ -15,8 +15,8 @@ from pyspark.sql.functions import col
 from pyspark.sql.types import StringType, IntegerType, FloatType, DateType
 
 import utils.data_processing_bronze_table
-import utils.data_processing_silver_table
-import utils.data_processing_gold_table
+# import utils.data_processing_silver_table
+# import utils.data_processing_gold_table
 
 # to call this script: python bronze_label_store.py --snapshotdate "2023-01-01"
 
