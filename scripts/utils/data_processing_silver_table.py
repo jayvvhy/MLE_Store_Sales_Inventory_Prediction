@@ -12,7 +12,7 @@ import pyspark.sql.functions as F
 import argparse
 
 from pyspark.sql.functions import col
-from pyspark.sql.types import StringType, IntegerType, FloatType, DateType
+from pyspark.sql.types import StringType, IntegerType, FloatType, DateType, BooleanType
 
 
 def process_silver_table(date_str, bronze_lms_directory, silver_loan_daily_directory, spark):
@@ -54,4 +54,34 @@ def process_silver_table(date_str, bronze_lms_directory, silver_loan_daily_direc
     #           compression='gzip')
     print('saved to:', filepath)
     
+
+
+    partition_name = "bronze_holiday_" + date_str.replace('-','_') + '.csv'
+    filepath = bronze_lms_directory + partition_name
+    df_h = spark.read.csv(filepath, header=True, inferSchema=True)
+    print('loaded from:', filepath, 'row count:', df.count())
+
+    df_h = df_h.filter(df_h.locale == "National")
+
+    column_type_map = {
+        "date": DateType(),
+        "type": StringType(),
+        "locale": StringType(),
+        "locale_name": StringType(),
+        "description": StringType(),
+        "transferred": BooleanType()
+    }
+
+    for column, new_type in column_type_map.items():
+        df_h = df_h.withColumn(column, col(column).cast(new_type))
+
+    # add file saving for holiday
+
+    partition_name = "silver_holiday_" + date_str.replace('-','_') + '.parquet'
+    filepath = silver_loan_daily_directory + partition_name
+    df_h.write.mode("overwrite").parquet(filepath)
+    # df.toPandas().to_parquet(filepath,
+    #           compression='gzip')
+    print('saved to:', filepath)
+
     return df
