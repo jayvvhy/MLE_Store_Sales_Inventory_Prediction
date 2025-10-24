@@ -38,6 +38,11 @@ def process_silver_table(date_str, bronze_lms_directory, silver_loan_daily_direc
     for column, new_type in column_type_map.items():
         df = df.withColumn(column, col(column).cast(new_type))
 
+
+    df = df.filter(
+    (df.store_nbr.isin(44, 3, 47)) &
+    (df.family.isin("BREAD/BAKERY", "BEVERAGES", "MEATS")))
+
     # # augment data: add month on book
     # df = df.withColumn("mob", col("installment_num").cast(IntegerType()))
 

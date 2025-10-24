@@ -15,10 +15,10 @@ from pyspark.sql.functions import col
 from pyspark.sql.types import StringType, IntegerType, FloatType, DateType
 
 # import utils.data_processing_bronze_table
-import utils.data_processing_silver_table
-# import utils.data_processing_gold_table
+# import utils.data_processing_silver_table
+import utils.data_processing_gold_table
 
-# to call this script: python silver_label_store.py --snapshotdate "2023-01-01"
+# to call this script: python gold_label_store.py --snapshotdate "2023-01-01"
 
 def main(snapshotdate):
     print('\n\n---starting job---\n\n')
@@ -36,15 +36,16 @@ def main(snapshotdate):
     date_str = snapshotdate
     
     # create bronze datalake
-    bronze_lms_directory = "datamart/bronze/lms/"
     
     silver_directory = "datamart/silver/"
+
+    gold_directory = "datamart/gold/"
     
-    if not os.path.exists(silver_directory):
-        os.makedirs(silver_directory)
+    if not os.path.exists(gold_directory):
+        os.makedirs(gold_directory)
 
     # run data processing
-    utils.data_processing_silver_table.process_silver_table(date_str, bronze_lms_directory, silver_directory, spark)
+    utils.data_processing_gold_table.process_labels_gold_table(date_str, silver_directory, gold_directory, spark)
     
     # end spark session
     spark.stop()

@@ -2,6 +2,9 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.dummy import DummyOperator
 from datetime import datetime, timedelta
+from airflow.operators.python import PythonOperator
+import os
+import glob
 
 default_args = {
     'owner': 'airflow',
@@ -10,13 +13,15 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
+end_date = datetime(2013, 1, 8)
+
 with DAG(
     'dag',
     default_args=default_args,
     description='data pipeline run once a month',
     schedule_interval='0 0 * * *',  # At 00:00 on day-of-month 1
     start_date=datetime(2013, 1, 1),
-    end_date=datetime(2013, 1, 8),
+    end_date=end_date,
     catchup=True,
 ) as dag:
 
@@ -50,9 +55,31 @@ with DAG(
         ),
     )
 
-    gold_label_store = DummyOperator(task_id="gold_label_store")
+    gold_label_store = BashOperator(
+        task_id='run_gold_label_store',
+        bash_command=(
+            'cd /opt/airflow/scripts && '
+            'python3 gold_label_store.py '
+            '--snapshotdate "{{ ds }}"'
+        ),
+    )
 
-    label_store_completed = DummyOperator(task_id="label_store_completed")
+    def verify_gold_label_store():
+        gold_path = "/opt/airflow/datamart/gold/"
+        parquet_files = glob.glob(os.path.join(gold_path, "*.parquet"))
+    
+        if not parquet_files:
+            raise FileNotFoundError(f"❌ No Gold label store files found in {gold_path}")
+    
+        print(f"✅ Found {len(parquet_files)} Gold file(s):")
+        for f in parquet_files:
+            print(f"  - {os.path.basename(f)}")
+        print("✅ Gold Label Store verification completed successfully.")
+
+    label_store_completed = PythonOperator(
+    task_id="label_store_completed",
+    python_callable=verify_gold_label_store,
+    )
 
     # Define task dependencies to run scripts sequentially
     dep_check_source_label_data >> bronze_label_store >> silver_label_store >> gold_label_store >> label_store_completed
@@ -75,7 +102,14 @@ with DAG(
 
     silver_table_2 = DummyOperator(task_id="silver_table_2")
 
-    gold_feature_store = DummyOperator(task_id="gold_feature_store")
+    gold_feature_store = BashOperator(
+        task_id='run_gold_feature_store',
+        bash_command=(
+            f'cd /opt/airflow/scripts && '
+            f'python3 gold_feature_store.py '
+            f'--snapshotdate "{end_date:%Y-%m-%d}"'
+        ),
+    )
 
     feature_store_completed = DummyOperator(task_id="feature_store_completed")
     
