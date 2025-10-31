@@ -1,0 +1,12 @@
+{
+    "model_type": "LinearRegression",
+    "train_date": "2013-01-07",
+    "regParam": 0.1,
+    "elasticNetParam": 0.0,
+    "train_rmse": 0.061058597139250055,
+    "test_rmse": 0.05735607528582997,
+    "oot_rmse": 0.18825301079768345,
+    "train_r2": 0.9999999982601746,
+    "test_r2": 0.999999998236046,
+    "oot_r2": 0.9999999927859652
+}

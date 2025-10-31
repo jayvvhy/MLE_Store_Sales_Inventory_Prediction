@@ -1,0 +1,10 @@
+store_nbr
+weekly_sales_sum
+weekly_sales_avg
+any_holiday
+avg_sales_7d
+avg_sales_14d
+avg_sales_28d
+sum_sales_7d
+sum_sales_14d
+sum_sales_28d

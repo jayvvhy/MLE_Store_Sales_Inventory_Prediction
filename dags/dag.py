@@ -13,15 +13,13 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
-end_date = datetime(2013, 1, 8)
-
 with DAG(
     'dag',
     default_args=default_args,
-    description='data pipeline run once a month',
-    schedule_interval='0 0 * * *',  # At 00:00 on day-of-month 1
+    description='data pipeline run once a week',
+    schedule_interval='0 0 * * 1',  # At 00:00 on day-of-month 1
     start_date=datetime(2013, 1, 1),
-    end_date=end_date,
+    end_date=datetime(2013, 3, 31),
     catchup=True,
 ) as dag:
 
@@ -86,54 +84,35 @@ with DAG(
  
  
     # --- feature store ---
-    dep_check_source_data_bronze_1 = DummyOperator(task_id="dep_check_source_data_bronze_1")
-
-    dep_check_source_data_bronze_2 = DummyOperator(task_id="dep_check_source_data_bronze_2")
-
-    dep_check_source_data_bronze_3 = DummyOperator(task_id="dep_check_source_data_bronze_3")
-
-    bronze_table_1 = DummyOperator(task_id="bronze_table_1")
-    
-    bronze_table_2 = DummyOperator(task_id="bronze_table_2")
-
-    bronze_table_3 = DummyOperator(task_id="bronze_table_3")
-
-    silver_table_1 = DummyOperator(task_id="silver_table_1")
-
-    silver_table_2 = DummyOperator(task_id="silver_table_2")
 
     gold_feature_store = BashOperator(
         task_id='run_gold_feature_store',
         bash_command=(
-            f'cd /opt/airflow/scripts && '
-            f'python3 gold_feature_store.py '
-            f'--snapshotdate "{end_date:%Y-%m-%d}"'
+            'cd /opt/airflow/scripts && '
+            'python3 gold_feature_store.py '
+            '--snapshotdate "{{ ds }}"'
         ),
     )
 
     feature_store_completed = DummyOperator(task_id="feature_store_completed")
     
     # Define task dependencies to run scripts sequentially
-    dep_check_source_data_bronze_1 >> bronze_table_1 >> silver_table_1 >> gold_feature_store
-    dep_check_source_data_bronze_2 >> bronze_table_2 >> silver_table_1 >> gold_feature_store
-    dep_check_source_data_bronze_3 >> bronze_table_3 >> silver_table_2 >> gold_feature_store
-    gold_feature_store >> feature_store_completed
+
+    label_store_completed >> gold_feature_store >> feature_store_completed
 
 
     # --- model inference ---
-    model_inference_start = DummyOperator(task_id="model_inference_start")
-
-    model_1_inference = DummyOperator(task_id="model_1_inference")
-
-    model_2_inference = DummyOperator(task_id="model_2_inference")
-
-    model_inference_completed = DummyOperator(task_id="model_inference_completed")
+    model_train = BashOperator(
+        task_id='run_model_train',
+        bash_command=(
+            'cd /opt/airflow/scripts && '
+            'python3 model_train.py '
+            '--snapshotdate "{{ ds }}"'
+        ),
+    )
     
     # Define task dependencies to run scripts sequentially
-    feature_store_completed >> model_inference_start
-    model_inference_start >> model_1_inference >> model_inference_completed
-    model_inference_start >> model_2_inference >> model_inference_completed
-
+    feature_store_completed >> model_train
 
     # --- model monitoring ---
     model_monitor_start = DummyOperator(task_id="model_monitor_start")
@@ -145,7 +124,7 @@ with DAG(
     model_monitor_completed = DummyOperator(task_id="model_monitor_completed")
     
     # Define task dependencies to run scripts sequentially
-    model_inference_completed >> model_monitor_start
+    model_train >> model_monitor_start
     model_monitor_start >> model_1_monitor >> model_monitor_completed
     model_monitor_start >> model_2_monitor >> model_monitor_completed
 

@@ -43,23 +43,27 @@ def process_silver_table(date_str, bronze_lms_directory, silver_loan_daily_direc
     (df.store_nbr.isin(44, 3, 47)) &
     (df.family.isin("BREAD/BAKERY", "BEVERAGES", "MEATS")))
 
-    # # augment data: add month on book
-    # df = df.withColumn("mob", col("installment_num").cast(IntegerType()))
+    # --- (⭐ NEW) Split and save each store-family combination ---
+    combos = (
+        df.select("store_nbr", "family")
+          .distinct()
+          .collect()
+    )
 
-    # # augment data: add days past due
-    # df = df.withColumn("installments_missed", F.ceil(col("overdue_amt") / col("due_amt")).cast(IntegerType())).fillna(0)
-    # df = df.withColumn("first_missed_date", F.when(col("installments_missed") > 0, F.add_months(col("snapshot_date"), -1 * col("installments_missed"))).cast(DateType()))
-    # df = df.withColumn("dpd", F.when(col("overdue_amt") > 0.0, F.datediff(col("snapshot_date"), col("first_missed_date"))).otherwise(0).cast(IntegerType()))
+    for row in combos:
+        store_id = row["store_nbr"]
+        fam = row["family"].replace("/", "").replace(" ", "").lower()
 
-    # save silver table - IRL connect to database to write
-    partition_name = "silver_" + date_str.replace('-','_') + '.parquet'
-    filepath = silver_loan_daily_directory + partition_name
-    df.write.mode("overwrite").parquet(filepath)
-    # df.toPandas().to_parquet(filepath,
-    #           compression='gzip')
-    print('saved to:', filepath)
-    
+        sub_df = df.filter((col("store_nbr") == store_id) & (col("family") == row["family"]))
+        count = sub_df.count()
+        if count == 0:
+            continue
 
+        out_name = f"silver_store{store_id}_{fam}_{date_str.replace('-', '_')}.parquet"
+        out_path = os.path.join(silver_loan_daily_directory, out_name)
+
+        sub_df.write.mode("overwrite").parquet(out_path)
+        print(f"✅ Saved {count} rows to {out_path}")
 
     partition_name = "bronze_holiday_" + date_str.replace('-','_') + '.csv'
     filepath = bronze_lms_directory + partition_name
