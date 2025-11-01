@@ -1,0 +1,5 @@
+directories:
+  silver_dir: "datamart/silver"
+  feature_store: "datamart/gold/feature_store"
+  label_store: "datamart/gold/label_store"
+  holiday_ref: "datamart/silver_reference/holiday_features.parquet"

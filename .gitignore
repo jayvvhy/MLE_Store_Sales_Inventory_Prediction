@@ -151,6 +151,11 @@ cython_debug/
 *.h5
 *.hdf5
 
+# Ignore Spark/Parquet checksum and success flags
+*.crc
+_SUCCESS
+._SUCCESS
+
 # ML / assignment specific temporary files
 *.pickle
 *.pkl
