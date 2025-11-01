@@ -1,0 +1,57 @@
+directories:
+  bronze_dir: "datamart/bronze"
+  silver_dir: "datamart/silver"
+
+datasets:
+  daily_sales:
+    path: "daily_sales"
+    types:
+      id: string
+      date: date
+      store_nbr: string
+      family: string
+      sales: float
+      onpromotion: int
+      year: int
+      month: int
+      snapshot_date: date
+    drop_nulls:
+      - id
+
+  daily_transactions:
+    path: "daily_transactions"
+    types:
+      date: date
+      store_nbr: string
+      transactions: int
+      month: int
+      year: int
+      snapshot_date: date
+    drop_nulls:
+      - date
+
+  # holiday_events:
+  #   path: "holiday_events"
+  #   types:
+  #     date: date
+  #     type: string
+  #     locale: string
+  #     locale_name: string
+  #     description: string
+  #     transferred: bool
+  #     year: int
+  #     month: int
+  #     snapshot_date: date
+  #   drop_nulls:
+  #     - date
+
+  oil_prices:
+    path: "oil_prices"
+    types:
+      date: date
+      dcoilwtico: float
+      year: int
+      month: int
+      snapshot_date: date
+    drop_nulls:
+      - date

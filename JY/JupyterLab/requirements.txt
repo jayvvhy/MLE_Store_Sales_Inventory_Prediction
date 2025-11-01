@@ -1,3 +1,4 @@
+jupyterlab
 numpy
 pandas
 matplotlib
@@ -5,5 +6,4 @@ seaborn
 scipy
 scikit-learn
 pyspark
-lightgbm
-pyarrow
+xgboost

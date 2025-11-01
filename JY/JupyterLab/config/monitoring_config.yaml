@@ -1,0 +1,60 @@
+# ==========================================================
+# Model Monitoring Configuration
+# ==========================================================
+
+# --- 1. Performance Monitoring --------------------------------
+performance_monitoring:
+  metrics_to_compute:
+    - auc
+    - gini
+    - ks
+    - f1
+    - accuracy
+    - precision
+    - recall
+
+  # Only these have thresholds that trigger logger alerts
+  performance_thresholds:
+    auc: 0.70
+    gini: 0.50
+    ks: 0.40
+
+
+# --- 2. PSI (Population Stability Index) / CSI Monitoring -----------
+psi_monitoring:
+  # Variables to monitor (grouped by datatype)
+  variables:
+    numeric:
+      - Outstanding_Debt
+      - Interest_Rate
+      - avg_fe_5_L3M
+      - Delay_from_due_date
+      - Credit_Utilization_Ratio
+      - avg_fe_8_L3M
+      - avg_fe_4_L3M
+      - avg_fe_10_L3M
+
+    categorical:
+      - Credit_Mix
+      - Payment_of_Min_Amount
+
+  # Three-tier drift thresholds
+  psi_thresholds:
+    stable: 0.10        # < 0.10 → stable
+    moderate: 0.25      # 0.10–0.25 → moderate drift
+    significant: 0.25   # > 0.25 → significant drift
+
+
+# --- 3. CSI (Characteristic Stability Index) -------------------------
+csi_monitoring:
+  csi_thresholds:
+    stable: 0.10        # < 0.10 → stable
+    moderate: 0.25      # 0.10–0.25 → moderate drift
+    significant: 0.25   # > 0.25 → significant drift
+
+
+# --- 4. Reporting / Outputs -----------------------------------
+reporting:
+  output_dir: "datamart/gold/model_monitoring"
+  save_plots: true
+  plot_history_months: 3

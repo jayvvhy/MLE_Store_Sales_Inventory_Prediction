@@ -1,0 +1,3 @@
+directories:
+  raw_data_dir: "data/"
+  silver_reference_dir: "datamart/silver_reference/"
