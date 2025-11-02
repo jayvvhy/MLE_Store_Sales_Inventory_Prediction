@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # ✅ Base image: Apache Airflow official image
 # ----------------------------------------------------------------------
-FROM apache/airflow:2.6.1
+FROM apache/airflow:2.6.1-python3.9
 
 # ----------------------------------------------------------------------
 # 🧩 Switch to root to install OS-level dependencies

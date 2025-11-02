@@ -235,6 +235,24 @@ def process_gold_tables(snapshot_date: str, spark, config_path: str = "config/go
     logger.info(f"✅ Feature store → {feat_path}")
     logger.info(f"✅ Label store   → {lab_path}")
     logger.info("🎉 Gold processing completed successfully.")
+# ---------------------------------------------------------------------
+# ✅ Airflow entrypoint
+# ---------------------------------------------------------------------
+from utils.helper_spark import get_spark_session
+
+def main(snapshot_date: str, spark=None):
+    """
+    Entry point for Gold ETL. Creates Spark session if not provided.
+    """
+    if spark is None:
+        spark = get_spark_session("gold_table")
+
+    process_gold_tables(snapshot_date, spark)
+
+    try:
+        spark.stop()
+    except Exception:
+        pass
 
 # -------------------------------------------------------------------------
 # Entrypoint (Airflow / CLI)

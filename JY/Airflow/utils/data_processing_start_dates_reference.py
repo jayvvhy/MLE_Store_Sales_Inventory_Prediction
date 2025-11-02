@@ -116,6 +116,21 @@ def process_start_dates(spark, config_path: str = "config/start_dates_config.yam
     logger.info("🎉 Start-date reference tables created successfully.")
 
 # -------------------------------------------------------------------------
+# ✅ Airflow entrypoint (called by DAG)
+# -------------------------------------------------------------------------
+from utils.helper_spark import get_spark_session
+
+def main(spark=None):
+    if spark is None:
+        spark = get_spark_session("holiday_events_reference")
+
+    process_start_dates(spark)
+
+    try:
+        spark.stop()
+    except Exception:
+        pass
+# -------------------------------------------------------------------------
 # Entrypoint (Airflow / CLI)
 # -------------------------------------------------------------------------
 if __name__ == "__main__":

@@ -184,21 +184,40 @@ def main(latest_snapshot_date: str = None):
     numeric_cols      = cfg["numerical_features"]
     eval_metrics_cfg  = cfg.get("evaluation_metrics", ["rmse", "mae", "r2"])
 
-    # --- Available aligned snapshots
+    # --- Identify available aligned snapshots
     feat_dates  = set(list_snapshot_dates(feature_store_dir))
     label_dates = set(list_snapshot_dates(label_store_dir))
     common_dates = sorted(list(feat_dates & label_dates))
+
     if not common_dates:
-        logger.info("ℹ️ No aligned feature/label snapshots found yet. Skipping.")
+        logger.info("ℹ️ No aligned feature/label snapshots found yet. Skipping training.")
         return
 
-    latest_anchor = None
-    if latest_snapshot_date:
-        latest_anchor = datetime.strptime(latest_snapshot_date, "%Y-%m-%d")
+    # --- Data sufficiency check
+    # Add +1 month for label lag (labels typically trail features)
+    min_months_required = total_m + 1
 
-    split_dates = build_splits(common_dates, train_m, val_m, test_m, oot_m, latest_anchor)
+    if latest_snapshot_date:
+        anchor = datetime.strptime(latest_snapshot_date, "%Y-%m-%d")
+        # Only use data before or equal to snapshot_date
+        usable_dates = [d for d in common_dates if d <= anchor]
+    else:
+        anchor = common_dates[-1]
+        usable_dates = common_dates
+
+    if len(usable_dates) < min_months_required:
+        logger.info(
+            f"⏭️ Insufficient data to train model for {anchor.date()}. "
+            f"Need ≥ {min_months_required} months (found {len(usable_dates)}). Skipping."
+        )
+        return
+
+    logger.info(f"📂 Found {len(usable_dates)} aligned months up to {anchor.date()} (OK). Proceeding with training.")
+
+    # --- Continue normal training pipeline
+    split_dates = build_splits(usable_dates, train_m, val_m, test_m, oot_m, anchor)
     if not split_dates:
-        logger.info(f"ℹ️ Insufficient data. Need {total_m} aligned months; found {len(common_dates)}. Skipping.")
+        logger.info(f"ℹ️ Unable to build valid splits for {anchor.date()}. Skipping.")
         return
 
     latest_training_window_date = split_dates["latest_training_window_date"]
@@ -216,7 +235,7 @@ def main(latest_snapshot_date: str = None):
     test_df  = assemble_aligned_dataset(feature_store_dir, label_store_dir, split_dates["test"],  join_keys, target_col)
     oot_df   = assemble_aligned_dataset(feature_store_dir, label_store_dir, split_dates["oot"],   join_keys, target_col)
 
-    # --- Preprocess
+    # --- Continue preprocessing and training (unchanged below)
     X_train, y_train = preprocess_for_lgbm(train_df, numeric_cols, categorical_cols, target_col)
     X_val,   y_val   = preprocess_for_lgbm(val_df,   numeric_cols, categorical_cols, target_col)
     X_test,  y_test  = preprocess_for_lgbm(test_df,  numeric_cols, categorical_cols, target_col)

@@ -141,6 +141,21 @@ def process_holiday_reference(spark, config_path: str = "config/holiday_events_c
     logger.info("🎉 Holiday reference processing completed successfully.")
 
 # -------------------------------------------------------------------------
+# ✅ Airflow-compatible entrypoint
+# -------------------------------------------------------------------------
+from utils.helper_spark import get_spark_session
+
+def main(spark=None):
+    if spark is None:
+        spark = get_spark_session("holiday_events_reference")
+
+    process_holiday_reference(spark)
+
+    try:
+        spark.stop()
+    except Exception:
+        pass
+# -------------------------------------------------------------------------
 # Entrypoint (optional CLI)
 # -------------------------------------------------------------------------
 if __name__ == "__main__":

@@ -173,6 +173,25 @@ def process_silver_tables(snapshot_date: str, spark: SparkSession, config_path: 
 
     logger.info("🎉 Silver layer processing completed successfully.")
 
+# ---------------------------------------------------------------------
+# ✅ Airflow entrypoint
+# ---------------------------------------------------------------------
+from utils.helper_spark import get_spark_session
+
+def main(snapshot_date: str, spark=None):
+    """
+    Entry point for Bronze ETL. Creates Spark session if not provided.
+    """
+    if spark is None:
+        spark = get_spark_session("bronze_table")
+
+    process_silver_tables(snapshot_date, spark)
+
+    try:
+        spark.stop()
+    except Exception:
+        pass
+
 # -------------------------------------------------------------------------
 # Entrypoint (Airflow / CLI compatible)
 # -------------------------------------------------------------------------
