@@ -1,0 +1,223 @@
+{
+  "model_version": "2017-04-01",
+  "timestamp_utc": "2025-11-02T17:13:26Z",
+  "training_window_end": "2017-04-01",
+  "label_alignment": "label_at_S_plus_1",
+  "join_keys": [
+    "store_nbr",
+    "family"
+  ],
+  "target_col": "label_next_month_sales",
+  "categorical_features": [
+    "store_nbr",
+    "family"
+  ],
+  "numerical_features": [
+    "num_holidays_total",
+    "num_transferred",
+    "num_holidays_type_Event",
+    "num_holidays_type_Holiday",
+    "num_holidays_type_Transfer",
+    "num_holidays_type_Bridge",
+    "num_holidays_type_Additional",
+    "num_holidays_type_Work Day",
+    "num_holidays_locale_National",
+    "num_holidays_locale_Local",
+    "num_holidays_locale_Regional",
+    "num_holidays_total_NM",
+    "num_transferred_NM",
+    "num_holidays_type_Event_NM",
+    "num_holidays_type_Holiday_NM",
+    "num_holidays_type_Transfer_NM",
+    "num_holidays_type_Bridge_NM",
+    "num_holidays_type_Additional_NM",
+    "num_holidays_type_Work Day_NM",
+    "num_holidays_locale_National_NM",
+    "num_holidays_locale_Local_NM",
+    "num_holidays_locale_Regional_NM",
+    "sales_LM",
+    "AVG_sales_L3M",
+    "SUM_sales_L3M",
+    "onpromotion_LM",
+    "AVG_onpromotion_L3M",
+    "SUM_onpromotion_L3M",
+    "transactions_LM",
+    "AVG_transactions_L3M",
+    "SUM_transactions_L3M",
+    "AVG_dcoilwtico_LM",
+    "AVG_dcoilwtico_L3M",
+    "SUM_dcoilwtico_L3M"
+  ],
+  "best_params": {
+    "objective": "regression",
+    "metric": "rmse",
+    "boosting_type": "gbdt",
+    "random_state": 42,
+    "n_jobs": -1,
+    "verbose": -1
+  },
+  "metrics": {
+    "val": {
+      "rmse": 6245.1516487773515,
+      "mae": 1772.5385710778571,
+      "r2": 0.978578267070779
+    },
+    "test": {
+      "rmse": 5060.966565639367,
+      "mae": 1436.9647903454315,
+      "r2": 0.982379924906474
+    },
+    "oot": {
+      "rmse": 5636.111704842694,
+      "mae": 1490.950924404845,
+      "r2": 0.9796969272059739
+    }
+  },
+  "feature_importance_top20_gain": [
+    {
+      "feature": "sales_LM",
+      "gain": 198436941985236.0
+    },
+    {
+      "feature": "AVG_sales_L3M",
+      "gain": 9941488225212.0
+    },
+    {
+      "feature": "transactions_LM",
+      "gain": 1455312728784.0
+    },
+    {
+      "feature": "family",
+      "gain": 874953569684.0
+    },
+    {
+      "feature": "onpromotion_LM",
+      "gain": 673066036252.0
+    },
+    {
+      "feature": "AVG_onpromotion_L3M",
+      "gain": 462984784332.0
+    },
+    {
+      "feature": "AVG_transactions_L3M",
+      "gain": 458105109248.0
+    },
+    {
+      "feature": "num_holidays_total",
+      "gain": 345577267052.0
+    },
+    {
+      "feature": "num_holidays_total_NM",
+      "gain": 301800159672.0
+    },
+    {
+      "feature": "num_holidays_locale_National_NM",
+      "gain": 282053051856.0
+    },
+    {
+      "feature": "store_nbr",
+      "gain": 219897897156.0
+    },
+    {
+      "feature": "num_holidays_type_Additional",
+      "gain": 206870827436.0
+    },
+    {
+      "feature": "num_holidays_locale_Local_NM",
+      "gain": 144488723808.0
+    },
+    {
+      "feature": "num_holidays_type_Holiday",
+      "gain": 126463422560.0
+    },
+    {
+      "feature": "AVG_dcoilwtico_LM",
+      "gain": 88270428532.0
+    },
+    {
+      "feature": "num_holidays_locale_National",
+      "gain": 61551863020.0
+    },
+    {
+      "feature": "num_transferred",
+      "gain": 40546052096.0
+    },
+    {
+      "feature": "num_holidays_type_Event",
+      "gain": 30163760640.0
+    },
+    {
+      "feature": "num_holidays_type_Holiday_NM",
+      "gain": 19626013184.0
+    },
+    {
+      "feature": "num_transferred_NM",
+      "gain": 19447157152.0
+    }
+  ],
+  "feature_importance_full_gain": {
+    "sales_LM": 198436941985236.0,
+    "AVG_sales_L3M": 9941488225212.0,
+    "transactions_LM": 1455312728784.0,
+    "family": 874953569684.0,
+    "onpromotion_LM": 673066036252.0,
+    "AVG_onpromotion_L3M": 462984784332.0,
+    "AVG_transactions_L3M": 458105109248.0,
+    "num_holidays_total": 345577267052.0,
+    "num_holidays_total_NM": 301800159672.0,
+    "num_holidays_locale_National_NM": 282053051856.0,
+    "store_nbr": 219897897156.0,
+    "num_holidays_type_Additional": 206870827436.0,
+    "num_holidays_locale_Local_NM": 144488723808.0,
+    "num_holidays_type_Holiday": 126463422560.0,
+    "AVG_dcoilwtico_LM": 88270428532.0,
+    "num_holidays_locale_National": 61551863020.0,
+    "num_transferred": 40546052096.0,
+    "num_holidays_type_Event": 30163760640.0,
+    "num_holidays_type_Holiday_NM": 19626013184.0,
+    "num_transferred_NM": 19447157152.0,
+    "num_holidays_locale_Regional_NM": 15800620060.0,
+    "num_holidays_locale_Local": 13074035088.0,
+    "num_holidays_locale_Regional": 10781105056.0,
+    "SUM_transactions_L3M": 6113128592.0,
+    "num_holidays_type_Event_NM": 4618181056.0,
+    "AVG_dcoilwtico_L3M": 674860884.0,
+    "num_holidays_type_Transfer": 0.0,
+    "num_holidays_type_Bridge": 0.0,
+    "num_holidays_type_Work_Day": 0.0,
+    "num_holidays_type_Transfer_NM": 0.0,
+    "num_holidays_type_Bridge_NM": 0.0,
+    "num_holidays_type_Additional_NM": 0.0,
+    "num_holidays_type_Work_Day_NM": 0.0,
+    "SUM_sales_L3M": 0.0,
+    "SUM_onpromotion_L3M": 0.0,
+    "SUM_dcoilwtico_L3M": 0.0,
+    "num_holidays_type_Work Day": 0.0,
+    "num_holidays_type_Work Day_NM": 0.0
+  },
+  "split_stats": {
+    "train": {
+      "start": "2015-05-01",
+      "end": "2016-10-01",
+      "rows": 32076
+    },
+    "val": {
+      "start": "2016-11-01",
+      "end": "2016-12-01",
+      "rows": 3564
+    },
+    "test": {
+      "start": "2017-01-01",
+      "end": "2017-02-01",
+      "rows": 3564
+    },
+    "oot": {
+      "start": "2017-03-01",
+      "end": "2017-04-01",
+      "rows": 3564
+    }
+  },
+  "artifact_paths": {
+    "model": "/opt/airflow/model_store/candidate_models/2017-04-01/model.pkl"
+  }
+}

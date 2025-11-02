@@ -43,7 +43,7 @@ def process_gold_tables(snapshot_date: str, spark, config_path: str = "config/go
     Build Gold-layer feature_store and label_store for the given snapshot_date.
 
     Feature store (S): aggregates from current month.
-    Label store (S-1): uses next-month (S) total sales as target.
+    Label store (S): uses same-month total sales (ground truth) for predictions made at S-1.
     """
 
     # ---------------------------------------------------------------------
@@ -65,8 +65,8 @@ def process_gold_tables(snapshot_date: str, spark, config_path: str = "config/go
     # ---------------------------------------------------------------------
     # Prepare snapshot months
     # ---------------------------------------------------------------------
-    S = datetime.strptime(snapshot_date, "%Y-%m-%d").date()   # current month for features
-    S1 = S - relativedelta(months=1)                           # one month prior (label)
+    S = datetime.strptime(snapshot_date, "%Y-%m-%d").date()   # current month
+    S1 = S - relativedelta(months=1)
     S2 = S - relativedelta(months=2)
     need = [fmt_tag(S2), fmt_tag(S1), fmt_tag(S)]              # require S, S-1, S-2
 
@@ -108,6 +108,7 @@ def process_gold_tables(snapshot_date: str, spark, config_path: str = "config/go
     if sales_all is None:
         logger.warning("⚠️ No daily_sales data found for required months. Skipping.")
         return
+
     # ---------------------------------------------------------------------
     # Type enforcement (defensive)
     # ---------------------------------------------------------------------
@@ -200,12 +201,12 @@ def process_gold_tables(snapshot_date: str, spark, config_path: str = "config/go
     feats_S = feats_all.filter(F.col("snapshot_date") == F.lit(S))
 
     # ---------------------------------------------------------------------
-    # Label = S sales, written to S-1
+    # Label = S sales, written to S
     # ---------------------------------------------------------------------
-    labels_S_minus_1 = (sales_m
+    labels_S = (sales_m
         .filter(F.col("snapshot_date") == F.lit(S))
         .select(
-            F.lit(S1).cast(DateType()).alias("snapshot_date"),
+            F.lit(S).cast(DateType()).alias("snapshot_date"),
             "store_nbr", "family",
             F.col("sales").alias("label_next_month_sales")
         )
@@ -227,14 +228,14 @@ def process_gold_tables(snapshot_date: str, spark, config_path: str = "config/go
         shutil.rmtree(tmp, ignore_errors=True)
         return final
 
-    tag_S  = fmt_tag(S)
-    tag_S1 = fmt_tag(S1)
+    tag_S = fmt_tag(S)
     feat_path = _write_single(feats_S, gold_feature_dir, tag_S)
-    lab_path  = _write_single(labels_S_minus_1, gold_label_dir, tag_S1)
+    lab_path  = _write_single(labels_S, gold_label_dir, tag_S)
 
     logger.info(f"✅ Feature store → {feat_path}")
     logger.info(f"✅ Label store   → {lab_path}")
     logger.info("🎉 Gold processing completed successfully.")
+
 # ---------------------------------------------------------------------
 # ✅ Airflow entrypoint
 # ---------------------------------------------------------------------

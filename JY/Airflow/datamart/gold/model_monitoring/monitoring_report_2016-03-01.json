@@ -1,0 +1,106 @@
+{
+  "snapshot_date": "2016-03-01",
+  "prediction_snapshot": "2016-02-01",
+  "reference_snapshot_for_drift": "2015-10-01",
+  "metrics": {
+    "rmse": 9587.61621299501,
+    "mae": 2606.938999173634,
+    "r2": 0.923992904610141
+  },
+  "baseline_metrics": {
+    "oot": {
+      "r2": 0.958674575190608,
+      "rmse": 7239.014119492647,
+      "mae": 1896.3261120901384
+    }
+  },
+  "breaches": {
+    "r2_breach": false,
+    "rmse_breach": true,
+    "mae_breach": true
+  },
+  "breach_flag": true,
+  "thresholds": {
+    "r2_drop_allowed": 0.1,
+    "rmse_increase_ratio": 1.25,
+    "mae_increase_ratio": 1.25
+  },
+  "psi_csi_summary": [
+    {
+      "variable": "AVG_sales_L3M",
+      "psi": 0.006223,
+      "psi_severity": "stable",
+      "csi": 0.065166,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "num_holidays_total",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "transactions_LM",
+      "psi": 0.186668,
+      "psi_severity": "moderate",
+      "csi": 0.32656,
+      "csi_severity": "significant"
+    },
+    {
+      "variable": "sales_LM",
+      "psi": 0.011997,
+      "psi_severity": "stable",
+      "csi": 0.095398,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "num_holidays_type_Additional",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "AVG_dcoilwtico_LM",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "num_holidays_total_NM",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "onpromotion_LM",
+      "psi": 0.015408,
+      "psi_severity": "stable",
+      "csi": 0.095899,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "num_holidays_locale_Regional_NM",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "num_holidays_type_Holiday",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    }
+  ],
+  "missing_in_reference": [],
+  "missing_in_current": [],
+  "artifacts": {
+    "drift_dashboard": "/opt/airflow/datamart/gold/model_monitoring/drift_dashboard_2016-03-01.png",
+    "candidate_models_performance": "/opt/airflow/datamart/gold/model_monitoring/candidate_models_perf_2016-03-01.png"
+  }
+}

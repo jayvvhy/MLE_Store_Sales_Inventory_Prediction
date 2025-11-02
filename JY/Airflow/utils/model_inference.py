@@ -12,18 +12,15 @@ Steps:
 6️⃣ Save results to datamart/gold/predictions/<snapshot_date>.parquet
 """
 
-import os, sys, json, pickle, logging
+import os, sys, json, pickle, logging, yaml, warnings
 from datetime import datetime
 import pandas as pd
-import warnings
 
 # ---------------------------------------------------------------------
-# Configuration
+# Logging setup
 # ---------------------------------------------------------------------
-DEPLOYMENT_DATE = datetime(2015, 4, 1)  # first inference allowed
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("model_inference")
-
 
 # ---------------------------------------------------------------------
 # Utility: resolve paths relative to project root
@@ -33,6 +30,23 @@ def resolve_relative_path(rel_path: str) -> str:
     base_dir = os.path.dirname(script_dir)
     return os.path.join(base_dir, rel_path)
 
+# ---------------------------------------------------------------------
+# Load deployment configuration
+# ---------------------------------------------------------------------
+def load_deployment_date() -> datetime:
+    """Load deployment_date from monitoring_config.yaml."""
+    config_path = resolve_relative_path("config/monitoring_config.yaml")
+    if not os.path.exists(config_path):
+        logger.warning(f"⚠️ monitoring_config.yaml not found at {config_path}. Using default 2099-12-31.")
+        return datetime(2099, 12, 31)
+    with open(config_path, "r", encoding="utf-8") as f:
+        cfg = yaml.safe_load(f)
+    date_str = cfg.get("deployment_date", "2099-12-31")
+    try:
+        return datetime.strptime(date_str, "%Y-%m-%d")
+    except Exception as e:
+        logger.warning(f"⚠️ Invalid deployment_date in YAML ({date_str}). Using default 2099-12-31. Error: {e}")
+        return datetime(2099, 12, 31)
 
 # ---------------------------------------------------------------------
 # Load feature snapshot
@@ -47,8 +61,7 @@ def load_feature_snapshot(base_path: str, snapshot_date: str) -> pd.DataFrame:
             logger.info(f"📦 Loaded feature snapshot: {os.path.basename(path)} ({len(df):,} rows)")
             return df
     logger.warning(f"⚠️ No parquet file found for snapshot_date={snapshot_date} in {base_path}")
-    return pd.DataFrame()  # return empty df for safe skip
-
+    return pd.DataFrame()
 
 # ---------------------------------------------------------------------
 # Preprocessing
@@ -63,7 +76,6 @@ def preprocess(df, numeric_cols, categorical_cols):
             df[c] = df[c].astype("object").fillna("Unknown").astype("category")
     return df
 
-
 # ---------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------
@@ -71,12 +83,14 @@ def main(snapshot_date: str):
     logger.info(f"🚀 Starting inference for snapshot_date={snapshot_date}")
 
     # -----------------------------------------------------------------
-    # Early skip: before deployment start
+    # Load deployment date
     # -----------------------------------------------------------------
+    DEPLOYMENT_DATE = load_deployment_date()
+    logger.info(f"📅 Deployment start date: {DEPLOYMENT_DATE.date()}")
+
     current_date = datetime.strptime(snapshot_date, "%Y-%m-%d")
     if current_date < DEPLOYMENT_DATE:
-        logger.info(f"⏭️ Skipping inference for {snapshot_date}: "
-                    f"deployment starts on {DEPLOYMENT_DATE.date()}.")
+        logger.info(f"⏭️ Skipping inference for {snapshot_date}: deployment starts on {DEPLOYMENT_DATE.date()}.")
         return
 
     # -----------------------------------------------------------------
@@ -153,16 +167,23 @@ def main(snapshot_date: str):
     # -----------------------------------------------------------------
     # Save predictions
     # -----------------------------------------------------------------
-    out_path = os.path.join(prediction_dir, f"{snapshot_date}.parquet")
+    out_path_parquet = os.path.join(prediction_dir, f"{snapshot_date}.parquet")
+    out_path_csv     = os.path.join(prediction_dir, f"{snapshot_date}.csv")
+
     try:
-        df_pred.to_parquet(out_path, index=False)
-        logger.info(f"💾 Saved predictions → {out_path}")
+        # Save to Parquet
+        df_pred.to_parquet(out_path_parquet, index=False)
+        logger.info(f"💾 Saved predictions → {out_path_parquet}")
+
+        # Also save to CSV (lightweight, easy inspection)
+        df_pred.to_csv(out_path_csv, index=False)
+        logger.info(f"📄 Saved CSV copy → {out_path_csv}")
+
         logger.info(f"✅ Inference complete: {len(df_pred):,} rows predicted.")
     except Exception as e:
         logger.warning(f"⚠️ Skipping save due to error: {e}")
 
     return df_pred
-
 
 # ---------------------------------------------------------------------
 # Entrypoint

@@ -1,0 +1,135 @@
+[
+  {
+    "promoted_model": "2015-04-01",
+    "oot_r2": 0.9043973153330122,
+    "triggered_by": "2015-07-01",
+    "timestamp": "2025-11-02 16:35:03",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2015-04-01",
+    "oot_r2": 0.9043973153330122,
+    "triggered_by": "2015-08-01",
+    "timestamp": "2025-11-02 16:36:53",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2015-04-01",
+    "oot_r2": 0.9043973153330122,
+    "triggered_by": "2015-09-01",
+    "timestamp": "2025-11-02 16:38:40",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2015-10-01",
+    "oot_r2": 0.958674575190608,
+    "triggered_by": "2015-12-01",
+    "timestamp": "2025-11-02 16:44:00",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2015-10-01",
+    "oot_r2": 0.958674575190608,
+    "triggered_by": "2016-01-01",
+    "timestamp": "2025-11-02 16:45:54",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2015-10-01",
+    "oot_r2": 0.958674575190608,
+    "triggered_by": "2016-02-01",
+    "timestamp": "2025-11-02 16:47:44",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-02-01",
+    "oot_r2": 0.9818711909548022,
+    "triggered_by": "2016-03-01",
+    "timestamp": "2025-11-02 16:49:34",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-02-01",
+    "oot_r2": 0.9818711909548022,
+    "triggered_by": "2016-04-01",
+    "timestamp": "2025-11-02 16:51:27",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-02-01",
+    "oot_r2": 0.9818711909548022,
+    "triggered_by": "2016-05-01",
+    "timestamp": "2025-11-02 16:53:20",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-02-01",
+    "oot_r2": 0.9818711909548022,
+    "triggered_by": "2016-06-01",
+    "timestamp": "2025-11-02 16:55:14",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-07-01",
+    "oot_r2": 0.990050491328602,
+    "triggered_by": "2016-09-01",
+    "timestamp": "2025-11-02 17:00:39",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-07-01",
+    "oot_r2": 0.990050491328602,
+    "triggered_by": "2016-10-01",
+    "timestamp": "2025-11-02 17:02:28",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-07-01",
+    "oot_r2": 0.990050491328602,
+    "triggered_by": "2016-11-01",
+    "timestamp": "2025-11-02 17:04:26",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-07-01",
+    "oot_r2": 0.990050491328602,
+    "triggered_by": "2016-12-01",
+    "timestamp": "2025-11-02 17:06:24",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-07-01",
+    "oot_r2": 0.990050491328602,
+    "triggered_by": "2017-01-01",
+    "timestamp": "2025-11-02 17:08:10",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-07-01",
+    "oot_r2": 0.990050491328602,
+    "triggered_by": "2017-03-01",
+    "timestamp": "2025-11-02 17:11:38",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-07-01",
+    "oot_r2": 0.990050491328602,
+    "triggered_by": "2017-04-01",
+    "timestamp": "2025-11-02 17:13:22",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-07-01",
+    "oot_r2": 0.990050491328602,
+    "triggered_by": "2017-05-01",
+    "timestamp": "2025-11-02 17:15:01",
+    "reason": "monitoring_breach"
+  },
+  {
+    "promoted_model": "2016-07-01",
+    "oot_r2": 0.990050491328602,
+    "triggered_by": "2017-06-01",
+    "timestamp": "2025-11-02 17:16:46",
+    "reason": "monitoring_breach"
+  }
+]

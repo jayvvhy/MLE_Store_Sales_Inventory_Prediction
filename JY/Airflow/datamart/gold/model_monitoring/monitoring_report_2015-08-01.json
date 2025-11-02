@@ -1,0 +1,106 @@
+{
+  "snapshot_date": "2015-08-01",
+  "prediction_snapshot": "2015-07-01",
+  "reference_snapshot_for_drift": "2015-04-01",
+  "metrics": {
+    "rmse": 11285.505222912856,
+    "mae": 4223.041704843496,
+    "r2": 0.8926051818442551
+  },
+  "baseline_metrics": {
+    "oot": {
+      "r2": 0.9043973153330122,
+      "rmse": 8253.952524960097,
+      "mae": 3664.2182360847933
+    }
+  },
+  "breaches": {
+    "r2_breach": false,
+    "rmse_breach": true,
+    "mae_breach": false
+  },
+  "breach_flag": true,
+  "thresholds": {
+    "r2_drop_allowed": 0.1,
+    "rmse_increase_ratio": 1.25,
+    "mae_increase_ratio": 1.25
+  },
+  "psi_csi_summary": [
+    {
+      "variable": "AVG_sales_L3M",
+      "psi": 0.123299,
+      "psi_severity": "moderate",
+      "csi": 0.315683,
+      "csi_severity": "significant"
+    },
+    {
+      "variable": "num_holidays_total",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "transactions_LM",
+      "psi": 0.101656,
+      "psi_severity": "moderate",
+      "csi": 0.27531,
+      "csi_severity": "significant"
+    },
+    {
+      "variable": "sales_LM",
+      "psi": 0.140368,
+      "psi_severity": "moderate",
+      "csi": 0.337309,
+      "csi_severity": "significant"
+    },
+    {
+      "variable": "num_holidays_type_Additional",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "AVG_dcoilwtico_LM",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "num_holidays_total_NM",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "onpromotion_LM",
+      "psi": 0.044532,
+      "psi_severity": "stable",
+      "csi": 0.177333,
+      "csi_severity": "moderate"
+    },
+    {
+      "variable": "num_holidays_locale_Regional_NM",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    },
+    {
+      "variable": "num_holidays_type_Holiday",
+      "psi": 0.0,
+      "psi_severity": "stable",
+      "csi": 0.0,
+      "csi_severity": "stable"
+    }
+  ],
+  "missing_in_reference": [],
+  "missing_in_current": [],
+  "artifacts": {
+    "drift_dashboard": "/opt/airflow/datamart/gold/model_monitoring/drift_dashboard_2015-08-01.png",
+    "candidate_models_performance": "/opt/airflow/datamart/gold/model_monitoring/candidate_models_perf_2015-08-01.png"
+  }
+}

@@ -3,15 +3,15 @@
   "prediction_snapshot": "2015-06-01",
   "reference_snapshot_for_drift": "2015-04-01",
   "metrics": {
-    "rmse": 16715.368466006978,
-    "mae": 5549.471481360835,
-    "r2": 0.7644011188625722
+    "rmse": 15614.747430493318,
+    "mae": 5137.326175125094,
+    "r2": 0.780502123153673
   },
   "baseline_metrics": {
     "oot": {
-      "r2": 0.9020404040506469,
-      "rmse": 8355.076199962243,
-      "mae": 3711.9873649834044
+      "r2": 0.9043973153330122,
+      "rmse": 8253.952524960097,
+      "mae": 3664.2182360847933
     }
   },
   "breaches": {
@@ -100,7 +100,7 @@
   "missing_in_reference": [],
   "missing_in_current": [],
   "artifacts": {
-    "drift_dashboard": "/app/datamart/gold/model_monitoring/drift_dashboard_2015-07-01.png",
-    "candidate_models_performance": "/app/datamart/gold/model_monitoring/candidate_models_perf_2015-07-01.png"
+    "drift_dashboard": "/opt/airflow/datamart/gold/model_monitoring/drift_dashboard_2015-07-01.png",
+    "candidate_models_performance": "/opt/airflow/datamart/gold/model_monitoring/candidate_models_perf_2015-07-01.png"
   }
 }
