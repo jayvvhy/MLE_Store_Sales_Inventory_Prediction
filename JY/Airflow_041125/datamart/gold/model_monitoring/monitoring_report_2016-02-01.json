@@ -1,0 +1,92 @@
+{
+  "snapshot_date": "2016-02-01",
+  "prediction_snapshot": "2016-01-01",
+  "reference_snapshot_for_drift": "2015-04-01",
+  "metrics": {
+    "rmse": 6349.786321062069,
+    "mae": 3127.1828036659745,
+    "r2": 0.9628384121203591
+  },
+  "baseline_metrics": {
+    "oot": {
+      "rmse": 8253.952524960097,
+      "mae": 3664.2182360847933,
+      "r2": 0.9043973153330122
+    }
+  },
+  "breaches": {
+    "r2_breach": false,
+    "rmse_breach": false,
+    "mae_breach": false
+  },
+  "breach_flag": false,
+  "thresholds": {
+    "r2_drop_allowed": 0.1,
+    "rmse_increase_ratio": 1.25,
+    "mae_increase_ratio": 1.25
+  },
+  "psi_summary": [
+    {
+      "variable": "AVG_sales_L3M",
+      "psi": 0.242234,
+      "psi_severity": "moderate"
+    },
+    {
+      "variable": "num_holidays_total",
+      "psi": 0.0,
+      "psi_severity": "stable"
+    },
+    {
+      "variable": "transactions_LM",
+      "psi": 0.273586,
+      "psi_severity": "significant"
+    },
+    {
+      "variable": "sales_LM",
+      "psi": 0.249339,
+      "psi_severity": "moderate"
+    },
+    {
+      "variable": "num_holidays_type_Additional",
+      "psi": 0.0,
+      "psi_severity": "stable"
+    },
+    {
+      "variable": "AVG_dcoilwtico_LM",
+      "psi": 0.0,
+      "psi_severity": "stable"
+    },
+    {
+      "variable": "num_holidays_total_NM",
+      "psi": 0.0,
+      "psi_severity": "stable"
+    },
+    {
+      "variable": "onpromotion_LM",
+      "psi": 0.075401,
+      "psi_severity": "stable"
+    },
+    {
+      "variable": "num_holidays_locale_Regional_NM",
+      "psi": 0.0,
+      "psi_severity": "stable"
+    },
+    {
+      "variable": "num_holidays_type_Holiday",
+      "psi": 0.0,
+      "psi_severity": "stable"
+    }
+  ],
+  "prediction_csi": {
+    "value": null,
+    "severity": null,
+    "reference_snapshot": "2015-04-01",
+    "current_snapshot": "2016-01-01"
+  },
+  "missing_in_reference": [],
+  "missing_in_current": [],
+  "artifacts": {
+    "drift_dashboard": "/opt/airflow/datamart/gold/model_monitoring/drift_dashboard_2016-02-01.png",
+    "candidate_models_performance": "/opt/airflow/datamart/gold/model_monitoring/candidate_models_perf_2016-02-01.png"
+  }
+}

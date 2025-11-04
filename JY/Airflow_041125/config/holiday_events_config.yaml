@@ -1,0 +1,12 @@
+directories:
+  raw_data_dir: "data/"
+  bronze_dir: "datamart/bronze_reference"
+  silver_dir: "datamart/silver_reference"
+
+schema:
+  date: date
+  type: string
+  locale: string
+  locale_name: string
+  description: string
+  transferred: bool

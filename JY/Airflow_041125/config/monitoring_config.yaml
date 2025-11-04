@@ -15,8 +15,6 @@ performance_monitoring:
     mae_increase_ratio: 1.25    # e.g., MAE can be at most +25% vs baseline
 
 # --- 2. Drift Monitoring (PSI/CSI) ----------------------
-# PSI → computed for each selected input variable
-# CSI → computed once at model output level (predicted_sales)
 drift_monitoring:
   variables:
     - AVG_sales_L3M
