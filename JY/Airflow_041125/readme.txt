@@ -3,3 +3,5 @@ https://github.com/jayvvhy/MLE_Store_Sales_Inventory_Prediction/tree/main/JY/Air
 Two DAGs - run in this order:
 1) store_sales_reference_setup.py
 2) store_sales_monthly_pipeline.py
+
+Ensure that datamart and model_store directories are empty before attempting backfill
